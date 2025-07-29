@@ -21,8 +21,9 @@ class DetaiModel extends Model
         'email',
         'tgbatdau',
         'tgketthuc',
+        'sogiotg',
         'trangthai',
-        'điemanhgia',
+        'diemdanhgia',
         'nhanxet'
     ];
     public $timestamps = true;
@@ -37,11 +38,7 @@ class DetaiModel extends Model
     }
     public function LoaiDT()
     {
-        return $this->belongsTo(LoaidetaiModel::class, 'id_lvnc');
-    }
-    public function Detai()
-    {
-        return $this->belongsTo(DetaiModel::class, 'id_detai');
+        return $this->belongsTo(LoaidetaiModel::class, 'id_loaidt');
     }
     //------------------//
     public function KinhPhi()

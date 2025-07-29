@@ -16,6 +16,10 @@ return new class extends Migration
         Schema::create('loaidetai', function (Blueprint $table) {
             $table->increments('id_loaidt');
             $table->text('tenloaidetai');
+            $table->integer('sogioTGtoida');
+            $table->integer('sogioTVtoida');
+            $table->integer('soTVtoida');
+            $table->integer('nam');
             $table->text('ghichu')->nullable();
             $table->timestamps();
         });

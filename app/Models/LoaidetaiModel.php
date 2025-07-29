@@ -13,6 +13,10 @@ class LoaidetaiModel extends Model
 
     protected $fillable = [
         'tenloaidetai',
+        'sogioTGtoida',
+        'sogioTVtoida',
+        'soTVtoida',
+        'nam',
         'ghichu',
     ];
     public $timestamps = true;

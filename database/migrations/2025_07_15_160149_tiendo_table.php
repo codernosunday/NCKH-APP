@@ -23,7 +23,6 @@ return new class extends Migration
             $table->date('tgketthuc');
             $table->text('trangthai')->nullable();
             $table->timestamps();
-
             $table->foreign('id_detai')
                 ->references('id_detai')
                 ->on('detai');
@@ -32,7 +31,6 @@ return new class extends Migration
                 ->on('thanhvien');
         });
     }
-
     /**
      * Reverse the migrations.
      *

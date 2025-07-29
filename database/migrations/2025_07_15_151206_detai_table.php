@@ -25,12 +25,12 @@ return new class extends Migration
             $table->string('email', 50)->nullable();
             $table->date('tgbatdau');
             $table->date('tgketthuc');
+            $table->integer('sogiotg');
             $table->string('trangthai', 10)->nullable();
             $table->text('diemdanhgia')->nullable();
             $table->text('nhanxet')->nullable();
             $table->decimal('kinhphitong', 11, 2)->nullable();
             $table->timestamps();
-
             $table->foreign('id_loaidt')
                 ->references('id_loaidt')
                 ->on('loaidetai')
@@ -43,7 +43,6 @@ return new class extends Migration
                 ->on('linhvucnghiencuu');
         });
     }
-
     /**
      * Reverse the migrations.
      *

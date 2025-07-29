@@ -13,7 +13,6 @@ return new class extends Migration
      */
     public function up()
     {
-        //
         Schema::create('loaispnghiencuu', function (Blueprint $table) {
             $table->increments('id_loai');
             $table->text('tenloaispnc');

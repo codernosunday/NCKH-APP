@@ -21,12 +21,10 @@ return new class extends Migration
             $table->text('tenSP');
             $table->string('trangthai', 10);
             $table->timestamps();
-
             $table->foreign('id_detai')
                 ->references('id_detai')
                 ->on('detai')
                 ->onDelete('cascade');
-
             $table->foreign('id_loai')
                 ->references('id_loai')
                 ->on('loaispnghiencuu');

@@ -16,16 +16,13 @@ return new class extends Migration
         Schema::create('thongtincanhan', function (Blueprint $table) {
             $table->increments('id_ttcn');
             $table->unsignedBigInteger('user_id')->nullable();
-
             $table->string('hovaten')->nullable();
-            $table->date('dvcongtac')->nullable();
+            $table->string('dvcongtac')->nullable();
             $table->string('email')->nullable();
             $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -33,7 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
         Schema::dropIfExists('thongtincanhan');
     }
 };

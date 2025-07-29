@@ -16,18 +16,16 @@ return new class extends Migration
         Schema::create('sogiotheonam', function (Blueprint $table) {
             $table->increments('id_nam');
             $table->unsignedInteger('id_loaidt');
-            $table->unsignedInteger('id_sogio');
-            $table->text('nam');
-            $table->integer('sonam')->nullable();
-            $table->integer('sogio');
+            $table->integer('sogioTGtoida');
+            $table->integer('sogioTVtoida');
+            $table->integer('soTVtoida');
+            $table->integer('nam');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->timestamps();
-
             $table->foreign('id_loaidt')
                 ->references('id_loaidt')
                 ->on('loaidetai');
-            $table->foreign('id_sogio')
-                ->references('id_sogio')
-                ->on('sogioNCKH');
         });
     }
 

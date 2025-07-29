@@ -1,0 +1,42 @@
+Chuỗi JSON mẫu
+{
+    "id_dt": 1,
+    "loaidetai": 1,
+    "linhvuc": 1,
+    "hovaten": "Vo Thanh Tin",
+    "Donvi": "Khoa công nghệ thông tin",
+    "Sodienthoai": "0123456789",
+    "Email": "tin@gmail.com",
+    "TGbatdau": "23/07/2025",
+    "TGketthuc": "23/08/2025",
+    "Sogiotacgia": 200,
+    "Trangthai": "Đang chờ duyệt",
+    "diemdanhgia": null,
+    "nhanxet": null,
+    "kinhphitong": null,
+    "thanhvien": [
+        {"id_nguoidung": 1, "tenthanhvien": "Hào", "nhiemvu": null, "vaitro": null, "sogio": 20},
+        {"id_nguoidung": null, "tenthanhvien": "Khoa", "nhiemvu": null, "vaitro": null, "sogio": 30}
+    ],
+    "tiendo": [
+        {
+            "ndcongviec": "hello1",
+            "nguoithuchien": "tác giả và thành viên",
+            "Tgbatdaucv": "time",
+            "Tgketthuccv": "time",
+            "trangthai": null,
+            "kinhphi": [
+                {"noidungchi": "mua máy tính", "DVT": "VNĐ", "Soluong": "3", "dongia": 200000, "thanhtien": 30000},
+                {"noidungchi": "mua chuộc", "DVT": "VNĐ", "Soluong": "2", "dongia": 10000, "thanhtien": 20000}
+            ]
+        },
+        {
+            "ndcongviec": "hello1",
+            "nguoithuchien": "tác giả và thành viên",
+            "Tgbatdaucv": "time",
+            "Tgketthuccv": "time",
+            "trangthai": null,
+            "kinhphi": null
+        }
+    ]
+}

@@ -8,17 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class SogiotheonamModel extends Model
 {
     use HasFactory;
-    protected $table = 'sogionckh';
-    protected $primaryKey = 'id_sogio';
+    protected $table = 'sogiotheonam';
+    protected $primaryKey = 'id_nam';
     protected $fillable = [
+        'id_loaidt',
         'sogioNC',
         'sogioTVtoida',
         'soTVtoida',
-        'nam'
+        'nam',
+        'sonam'
     ];
     public $timestamps = true;
-    public function Sogiotheonam()
+    public function Loaidetai()
     {
-        return $this->hasMany(SogiotheonamModel::class, 'id_sogio', 'id_sogio');
+        return $this->belongsTo(LoaidetaiModel::class, 'id_loaidt');
     }
 }

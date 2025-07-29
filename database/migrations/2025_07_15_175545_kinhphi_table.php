@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('kinhphi', function (Blueprint $table) {
             $table->increments('id_kp');
             $table->unsignedInteger('id_detai')->nullable();
-            $table->unsignedInteger('id_tiendo')->nullable();
+            $table->unsignedInteger('id_tiendo');
             $table->text('ctkhoanchi')->nullable();
             $table->text('donvitinh')->nullable();
             $table->text('soluong')->nullable();
@@ -32,7 +32,6 @@ return new class extends Migration
                 ->on('tiendo');
         });
     }
-
     /**
      * Reverse the migrations.
      *
