@@ -16,7 +16,8 @@ class TiendoModel extends Model
         'tgbatdau',
         'tgketthuc',
         'trangthai',
-        'nguoithuchien'
+        'nguoithuchien',
+        'thang'
     ];
     public $timestamps = true;
     public function Detai()

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedInteger('id_tv')->nullable();
             $table->text('ndcongviec');
             $table->text('nguoithuchien')->nullable();
+            $table->text('thang')->nullable();
             $table->date('tgbatdau');
             $table->date('tgketthuc');
             $table->text('trangthai')->nullable();

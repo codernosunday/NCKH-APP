@@ -23,7 +23,7 @@ class DetaiController extends Controller
         $ttcn = $user->thongtincanhan;
 
         if (!$ttcn) {
-            Log::warning('⚠️ Không có thông tin cá nhân. Gán tạm id_ttcn = user_id', ['user_id' => $user->id]);
+            Log::warning('Không có thông tin cá nhân. Gán tạm id_ttcn = user_id', ['user_id' => $user->id]);
             // return response()->json([
             //     'message' => 'Không tìm thấy thông tin cá nhân.',
             // ], 404);
@@ -33,7 +33,7 @@ class DetaiController extends Controller
         }
 
         if (!$this->kiemTraDK($request)) {
-            Log::debug('❌ Không đáp ứng điều kiện đăng ký đề tài', [
+            Log::debug('Không đáp ứng điều kiện đăng ký đề tài', [
                 'request' => $request->all(),
                 'user_id' => $user->id,
             ]);
@@ -44,7 +44,7 @@ class DetaiController extends Controller
 
         DB::beginTransaction();
         try {
-            Log::debug('✅ Bắt đầu tạo đề tài', [
+            Log::debug('Bắt đầu tạo đề tài', [
                 'user_id' => $user->id,
                 'payload' => $request->all()
             ]);
@@ -53,20 +53,20 @@ class DetaiController extends Controller
                 'id_ttcn'      => 1,
                 'id_lvnc'      => $request->input('linhvuc'),
                 'id_loaidt'    => $request->input('loaidetai'),
-                'tendetai'     => $request->input('hovaten'),
+                'tendetai'     => $request->input('tendetai'),
                 'hotenCN'      => $request->input('hovaten'),
                 'donvi'        => $request->input('Donvi'),
                 'sodt'         => $request->input('Sodienthoai'),
                 'email'        => $request->input('Email'),
-                'tgbatdau'     => $request->input('TGbatdau'),
-                'tgketthuc'    => $request->input('TGketthuc'),
+                'tgbatdau'     => $request->input('TGbatdau') ?? null,
+                'tgketthuc'    => $request->input('TGketthuc') ?? null,
                 'sogiotg'      => $request->input('Sogiotacgia'),
                 'trangthai'    => $request->input('Trangthai'),
                 'diemanhgia'   => null,
                 'nhanxet'      => null,
             ]);
 
-            Log::debug('✅ Đã tạo đề tài', ['id_detai' => $detai->id_detai]);
+            Log::debug('Đã tạo đề tài', ['id_detai' => $detai->id_detai]);
 
             foreach ($request->input('thanhvien', []) as $tv) {
                 ThanhvienModel::create([
@@ -74,19 +74,20 @@ class DetaiController extends Controller
                     'id_ttcn'        => $tv['id_nguoidung'] ?? null,
                     'tenthanhvien'   => $tv['tenthanhvien'],
                     'nhiemvu'        => $tv['nhiemvu'],
-                    'vaitro'         => $tv['vaitro'],
+                    'vaitro'         => $tv['vaitro'] ?? null,
                     'sogiothamgia'   => $tv['sogio'],
                 ]);
             }
-            Log::debug('✅ Đã thêm thành viên');
+            Log::debug('Đã thêm thành viên');
 
             foreach ($request->input('tiendo', []) as $td) {
                 $tiendo = TiendoModel::create([
                     'id_detai'   => $detai->id_detai,
                     'ndcongviec' => $td['ndcongviec'],
                     'nguoithuchien' => $td['nguoithuchien'],
-                    'tgbatdau'   => $td['Tgbatdaucv'],
-                    'tgketthuc'  => $td['Tgketthuccv'],
+                    'thang' => $td['thang'],
+                    'tgbatdau'   => $td['Tgbatdaucv'] ?? null,
+                    'tgketthuc'  => $td['Tgketthuccv'] ?? null,
                     'trangthai'  => $td['trangthai'],
                 ]);
 
@@ -102,18 +103,18 @@ class DetaiController extends Controller
                     ]);
                 }
             }
-            Log::debug('✅ Đã thêm tiến độ và kinh phí');
+            Log::debug('Đã thêm tiến độ và kinh phí');
 
             DB::commit();
-            Log::debug('✅ Giao dịch commit hoàn tất');
+            Log::debug('Hoàn tất');
 
             return response()->json([
                 'message' => 'Đăng ký đề tài thành công!',
-                'data' => $detai
+                // 'data' => $detai
             ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('❌ Lỗi khi đăng ký đề tài', [
+            Log::error('Lỗi khi đăng ký đề tài', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
                 'request' => $request->all(),
@@ -143,18 +144,17 @@ class DetaiController extends Controller
         $soTVtoida = $loaiDT->soTVtoida;
         $sogioTVtoida = $loaiDT->sogioTVtoida;
         if ($soGioTacGia > $gioTG) {
-            Log::debug("Vi phạm: Sogiotacgia > sogioNC");
+            Log::debug("Sogiotacgia > sogioNC");
             return false;
         }
         if ($tongSoGioTV > $sogioTVtoida) {
-            Log::debug("Vi phạm: Tổng sogio TV > sogioTVtoida");
+            Log::debug("Tổng sogio TV > sogioTVtoida");
             return false;
         }
         if ($soLuongThanhVien > $soTVtoida) {
-            Log::debug("Vi phạm: số TV > sốTVtoida");
+            Log::debug("số TV > sốTVtoida");
             return false;
         }
-
         return true;
     }
 }
