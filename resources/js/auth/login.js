@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     errorMessage.style.display = 'block';
                 }
             } catch (error) {
-                errorMessage.textContent = 'Lỗi hệ thống';
+                errorMessage.textContent = 'Trang hết hạn hãy tải lại trang';
                 errorMessage.style.display = 'block';
             } finally {
                 loginButton.disabled = false;
