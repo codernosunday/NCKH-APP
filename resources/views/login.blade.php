@@ -16,7 +16,7 @@
     <div class="login-container">
         <div class="login-form">
             <div class="logo">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo">
+                <img src="{{asset('images/logo.png')}}" alt="Logo">
             </div>
 
             <h2>Đăng nhập hệ thống</h2>

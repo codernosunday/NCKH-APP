@@ -23,9 +23,7 @@ Route::post('/loginuser', [DangNhapController::class, 'loginNguoidung']);
 /*
 | Giao diện---------------------------------------------
 */
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [GiaodienNguoiDungController::class, 'TrangDangnhap']);
 Route::get('/trangdangnhap', [GiaodienNguoiDungController::class, 'TrangDangnhap']);
 // giao diện admin
 Route::get('/admin/trangquanly', [GiaodienQLController::class, 'dashboardAdmin']);
