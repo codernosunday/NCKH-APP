@@ -18,12 +18,30 @@ class DetaiController extends Controller
     public function DangkyDetai(DetaiRequest $request)
     {
 
+        // Kiểm tra người dùng đã có đề tài trạng thái "Đã duyệt" chưa
+        $userId = $request->input('id_nguoidung');
+        $ttcn = ThongtincanhanModel::where('user_id', $userId)->first();
+        $detaiDaDuyet = DetaiModel::where('id_ttcn', $ttcn?->id_ttcn)
+            ->where('trangthai', 'Đã duyệt')
+            ->first();
+        if ($detaiDaDuyet) {
+            Log::debug('Người dùng đã có đề tài trạng thái Đã duyệt', [
+                'user_id' => $userId,
+                'id_detai' => $detaiDaDuyet->id_detai
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Bạn đã có đề tài được duyệt, không thể đăng ký thêm!',
+            ], 403);
+        }
+
         if (!$this->kiemTraDK($request)) {
             Log::debug('Không đáp ứng điều kiện đăng ký đề tài', [
                 'request' => $request->all(),
-                'user_id' => $request->input('id_nguoidung'),
+                'user_id' => $userId,
             ]);
             return response()->json([
+                'success' => false,
                 'message' => 'Không đáp ứng điều kiện đăng ký đề tài',
             ], 403);
         }
@@ -34,7 +52,7 @@ class DetaiController extends Controller
                 'user_id' => $request->input('id_nguoidung'),
                 'payload' => $request->all()
             ]);
-            $id_ttcn = ThongtincanhanModel::find($request->input('id_nguoidung'));
+            $id_ttcn = $ttcn->id_ttcn;
             $detai = DetaiModel::create([
                 'id_ttcn'      => $id_ttcn,
                 'id_lvnc'      => $request->input('linhvuc'),
@@ -44,6 +62,7 @@ class DetaiController extends Controller
                 'donvi'        => $request->input('Donvi'),
                 'sodt'         => $request->input('Sodienthoai'),
                 'email'        => $request->input('Email'),
+                'sothang'        => $request->input('sothang'),
                 'tgbatdau'     => $request->input('TGbatdau') ?? null,
                 'tgketthuc'    => $request->input('TGketthuc') ?? null,
                 'sogiotg'      => $request->input('Sogiotacgia'),
@@ -185,8 +204,6 @@ class DetaiController extends Controller
             ], 500);
         }
     }
-
-
     /*Delete controller */
     public function xoaKinhPhi($id_detai, $id_tiendo, $id_kinhphi)
     {

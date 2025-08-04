@@ -21,8 +21,14 @@ export function DangKyDeTai() {
     const alertBox = document.createElement('div');
     alertBox.className = 'alert';
     alertBox.style.display = 'none';
-    alertBox.style.margin = '0 0 20px 0';
-    form?.parentNode.insertBefore(alertBox, form);
+    alertBox.style.margin = '20px 0';
+    // Chèn alertBox vào trước nút đăng ký
+    const submitBtn = form?.querySelector('button[type="submit"]');
+    if (submitBtn) {
+        submitBtn.parentNode.insertBefore(alertBox, submitBtn);
+    } else {
+        form?.parentNode.insertBefore(alertBox, form);
+    }
 
     // Hiển thị thông báo
     function showAlert(type, message) {
@@ -32,7 +38,7 @@ export function DangKyDeTai() {
 
         setTimeout(() => {
             alertBox.style.display = 'none';
-        }, 5000);
+        }, 20000);
     }
 
     // Variables
@@ -155,7 +161,9 @@ export function DangKyDeTai() {
             if (!response.ok) {
                 throw new Error(data.message || 'Có lỗi xảy ra khi gửi dữ liệu');
             }
-
+            if (data.success === false) {
+                showAlert('danger', data.message);
+            }
             // Hiển thị thông báo thành công
             showAlert('success', data.message || 'Đăng ký đề tài thành công!');
 
