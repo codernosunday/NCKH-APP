@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layoutAdmin.app')
 
 @section('title', 'Trang Admin')
 

@@ -12,16 +12,17 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown">
                         <i class="fas fa-user-circle me-1"></i>
-                        {{ Auth::user()->email ?? 'Khách' }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="/thongtincanhan"><i class="fas fa-user me-2"></i>Thông
+                        <li><a class="dropdown-item" href=""><i class="fas fa-user me-2"></i>Thông
                                 tin cá nhân</a></li>
+                        <li><a class="dropdown-item" href=""><i class="fas fa-cog me-2"></i>Cài
+                                đặt</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <form method="POST" action="{{ route('logout') }}">
+                            <form method="POST" action="">
                                 @csrf
                                 <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i>Đăng
                                     xuất</button>

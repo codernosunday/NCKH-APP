@@ -19,16 +19,29 @@ use App\Http\Controllers\GiaodienNguoiDungController;
 | Đăng nhập, đăng xuất---------------------------------
 */
 
-Route::post('/loginuser', [DangNhapController::class, 'loginNguoidung']);
+Route::post('/loginuser', [DangNhapController::class, 'loginNguoidung'])->name('login');;
+Route::post('/logoutuser', [DangNhapController::class, 'Dangxuat'])->name('logout');;
 /*
-| Giao diện---------------------------------------------
+| Giao diện view---------------------------------------------
 */
 Route::get('/', [GiaodienNguoiDungController::class, 'TrangDangnhap']);
 Route::get('/trangdangnhap', [GiaodienNguoiDungController::class, 'TrangDangnhap']);
+Route::middleware(['checknguoidung'])->group(function () {
+    Route::get('/detainckh/detaicuatoi', [GiaodienNguoiDungController::class, 'TrangDeTaiCaNhan']);
+    Route::get('/thongtincanhan', [GiaodienNguoiDungController::class, 'TrangCaNhan']);
+    Route::get('/detainckh/dangkydetai', [GiaodienNguoiDungController::class, 'TrangDangKyDetai']);
+    Route::get('/detainckh', [GiaodienNguoiDungController::class, 'TrangTimKiemDetai']);
+});
 // giao diện admin
 Route::get('/admin/trangquanly', [GiaodienQLController::class, 'dashboardAdmin']);
 // giao diện quản lý hệ thống
 Route::get('/quanlyhethong/trangquanly', [GiaodienQLController::class, 'dashboardQL']);
 
+
+/*
+| Backend route post---------------------------------------------
+*/
 //Đề tài
-route::post('/pdangkydetai', [DetaiController::class, 'DangkyDetai']);
+Route::middleware(['checknguoidung'])->group(function () {
+    route::post('/detai/dangkydetai', [DetaiController::class, 'DangkyDetai'])->name('detai.dangkydetai');
+});
