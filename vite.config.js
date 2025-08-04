@@ -14,6 +14,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/auth/login.js',
                 'resources/js/pages/dangkydetai.js',
+                'resources/js/pages/detaicanhan.js',
 
             ],
             refresh: true,

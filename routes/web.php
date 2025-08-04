@@ -44,4 +44,6 @@ Route::get('/quanlyhethong/trangquanly', [GiaodienQLController::class, 'dashboar
 //Đề tài
 Route::middleware(['checknguoidung'])->group(function () {
     route::post('/detai/dangkydetai', [DetaiController::class, 'DangkyDetai'])->name('detai.dangkydetai');
+    route::post('/tiendo/{id}/themkinhphi', [DetaiController::class, 'ThemKinhPhi'])->name('detai.ThemKinhPhi');
+    route::delete('/detai/{id_detai}/tiendo/{id_tiendo}/kinhphi/{id_kinhphi}', [DetaiController::class, 'xoaKinhPhi'])->name('detai.xoaKinhPhi');
 });

@@ -144,4 +144,77 @@ class DetaiController extends Controller
         return true;
     }
     /*Thao tác với đề tài */
+    public function ThemKinhPhi(Request $request, $id)
+    {
+        Log::debug('Thêm kinh phí cho đề tài', [
+            'request' => $request->all(),
+        ]);
+        $validated = $request->validate([
+            'id_detai'   => 'required|integer|exists:detai,id_detai',
+            'ctkhoanchi' => 'required|string|max:255',
+            'donvitinh'  => 'required|string|max:50',
+            'soluong'    => 'required|integer|min:1',
+            'dongia'     => 'required|numeric|min:0',
+            'thanhtien'  => 'required|numeric|min:0',
+        ]);
+        try {
+            $kinhphi = KinhphiModel::create([
+                'id_detai'   => $validated['id_detai'],
+                'id_tiendo'  => $id,
+                'ctkhoanchi' => $validated['ctkhoanchi'],
+                'donvitinh'  => $validated['donvitinh'],
+                'soluong'    => $validated['soluong'],
+                'dongia'     => $validated['dongia'],
+                'thanhtien'  => $validated['thanhtien'],
+            ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Kinh phí đã được thêm thành công!',
+                'data' => $kinhphi
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Lỗi khi thêm kinh phí', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'request' => $request->all(),
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi khi thêm kinh phí',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+    /*Delete controller */
+    public function xoaKinhPhi($id_detai, $id_tiendo, $id_kinhphi)
+    {
+        Log::debug('Xoá kinh phí', [
+            'id_kp' => $id_kinhphi,
+            'id_detai' => $id_detai,
+            'id_tiendo' => $id_tiendo,
+        ]);
+        try {
+            KinhphiModel::where('id_kp', $id_kinhphi)
+                ->where('id_detai', $id_detai)
+                ->where('id_tiendo', $id_tiendo)
+                ->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Kinh phí đã được xoá thành công!'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Lỗi khi xoá kinh phí', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi khi xoá kinh phí',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

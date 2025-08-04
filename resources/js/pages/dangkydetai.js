@@ -1,4 +1,4 @@
-export function initTopicRegistration() {
+export function DangKyDeTai() {
     // Lấy dữ liệu người dùng
     const userDataElement = document.getElementById('user-data');
     const userData = userDataElement ? JSON.parse(userDataElement.textContent) : null;
