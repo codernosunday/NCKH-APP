@@ -17,7 +17,6 @@ class DetaiController extends Controller
 {
     public function DangkyDetai(DetaiRequest $request)
     {
-
         // Kiểm tra người dùng đã có đề tài trạng thái "Đã duyệt" chưa
         $userId = $request->input('id_nguoidung');
         $ttcn = ThongtincanhanModel::where('user_id', $userId)->first();
@@ -82,7 +81,6 @@ class DetaiController extends Controller
                 ]);
             }
             Log::debug('Đã thêm thành viên');
-
             foreach ($request->input('tiendo', []) as $td) {
                 $tiendo = TiendoModel::create([
                     'id_detai'   => $detai->id_detai,
@@ -107,7 +105,6 @@ class DetaiController extends Controller
                 }
             }
             Log::debug('Đã thêm tiến độ và kinh phí');
-
             DB::commit();
             Log::debug('Hoàn tất');
 

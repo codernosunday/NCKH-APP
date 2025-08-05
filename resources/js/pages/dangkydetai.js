@@ -102,12 +102,12 @@ export function DangKyDeTai() {
             const container = e.target.closest('.kinh-phi-section').querySelector('.kinh-phi-container');
             const template = document.getElementById('kinhPhiTemplate').content.cloneNode(true);
             const parentIndex = Array.from(document.querySelectorAll('.tien-do-item')).indexOf(e.target.closest('.tien-do-item'));
+            const costIndex = container.querySelectorAll('.kinh-phi-item').length;
 
             const inputs = template.querySelectorAll('[name]');
             inputs.forEach(input => {
-                input.name = input.name.replace('[]', `[${parentIndex}][]`);
+                input.name = input.name.replace('[]', `[${parentIndex}]`).replace('[]', `[${costIndex}]`);
             });
-
             container.appendChild(template);
         }
     });
