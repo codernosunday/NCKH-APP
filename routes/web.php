@@ -37,6 +37,7 @@ Route::middleware(['checknguoidung'])->group(function () {
 | Tìm kiếm---------------------------------------------
 */
 Route::get('/detai/{idloai}', [GiaodienNguoiDungController::class, 'timkiemtheoloai']);
+Route::get('/detai/timkiem/{search}', [GiaodienNguoiDungController::class, 'timkiem']);
 
 
 // giao diện admin

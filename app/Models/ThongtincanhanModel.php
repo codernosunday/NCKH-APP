@@ -14,7 +14,8 @@ class ThongtincanhanModel extends Model
         'user_id',
         'hovaten',
         'dvcongtac',
-        'email'
+        'email',
+        'trangthai'
     ];
     public $timestamps = true;
     public function User()

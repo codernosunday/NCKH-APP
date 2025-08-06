@@ -68,7 +68,8 @@ class GiaodienNguoiDungController extends Controller
             ]);
             return redirect()->back()->with('error', 'Thông tin cá nhân không tồn tại.');
         };
-        $dsDetai = DetaiModel::where('id_ttcn', $id_ttcn->id_ttcn)->where('trangthai', 'Đã duyệt')
+        $dsDetai = DetaiModel::where('id_ttcn', $id_ttcn->id_ttcn)
+            ->whereIn('trangthai', ['Đã duyệt', 'Đã nghiệm thu'])
             ->first();
         if ($dsDetai == null) {
             $dieukien = false;
@@ -97,6 +98,22 @@ class GiaodienNguoiDungController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Chưa có đề tài',
+            ], 404);
+        }
+        return view('components.detai', compact('loaiDeTai', 'dsDetai'));
+    }
+    public function timkiem($search)
+    {
+        $loaiDeTai = LoaidetaiModel::all();
+        $dsDetai = DetaiModel::with(['Thanhvien', 'Linhvucnghiencuu', 'LoaiDT'])
+            ->where('tendetai', 'like', '%' . $search . '%')
+            ->orWhere('hotenCN', 'like', '%' . $search . '%')
+            ->where('trangthai', 'Đã duyệt')
+            ->paginate(10);
+        if ($dsDetai->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Không tìm thấy đề tài',
             ], 404);
         }
         return view('components.detai', compact('loaiDeTai', 'dsDetai'));

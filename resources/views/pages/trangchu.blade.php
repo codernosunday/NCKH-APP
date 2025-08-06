@@ -14,7 +14,7 @@
         </div>
         <div class="card mb-2">
             <div class="card-body">
-                <form>
+                <form onsubmit="return false;">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -36,7 +36,7 @@
                         </div>
                         <div class="col-md-2">
                             <label class="d-block opacity-0">Tìm kiếm</label>
-                            <button type="submit" class="btn btn-primary btn-tone">
+                            <button type="button" id="search-btn" class="btn btn-primary btn-tone">
                                 <i class="anticon anticon-search"></i> Tìm kiếm
                             </button>
                         </div>
