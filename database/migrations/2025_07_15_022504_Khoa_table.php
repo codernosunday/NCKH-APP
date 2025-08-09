@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('loaispnghiencuu', function (Blueprint $table) {
-            $table->increments('id_loai');
-            $table->text('tenloaispnc');
+        Schema::create('khoa', function (Blueprint $table) {
+            $table->increments('id_khoa');
+            $table->text('tenkhoa');
+            $table->text('trangthai');
             $table->timestamps();
         });
     }

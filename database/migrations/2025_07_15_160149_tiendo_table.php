@@ -26,10 +26,12 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('id_detai')
                 ->references('id_detai')
-                ->on('detai');
+                ->on('detai')
+                ->onDelete('cascade');
             $table->foreign('id_tv')
                 ->references('id_tv')
-                ->on('thanhvien');
+                ->on('thanhvien')
+                ->onDelete('cascade');
         });
     }
     /**

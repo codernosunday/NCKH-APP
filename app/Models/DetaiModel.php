@@ -13,6 +13,7 @@ class DetaiModel extends Model
     protected $fillable = [
         'id_ttcn',
         'id_lvnc',
+        'id_khoa',
         'id_loaidt',
         'tendetai',
         'sothang',
@@ -30,7 +31,6 @@ class DetaiModel extends Model
         'nguoixem',
     ];
     public $timestamps = true;
-
     public function Thongtincanhan()
     {
         return $this->belongsTo(ThongtincanhanModel::class, 'id_ttcn');
@@ -42,6 +42,10 @@ class DetaiModel extends Model
     public function LoaiDT()
     {
         return $this->belongsTo(LoaidetaiModel::class, 'id_loaidt', 'id_loaidt');
+    }
+    public function Khoa()
+    {
+        return $this->belongsTo(KhoaModel::class, 'id_khoa', 'id_khoa');
     }
     //------------------//
     public function KinhPhi()

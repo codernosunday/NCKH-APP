@@ -86,10 +86,11 @@
                                 <strong>Công việc:</strong> {{ $td->ndcongviec }}
                             </div>
                             <div>
-                                <span class="badge 
-                                                    @if($td->trangthai == 'Hoàn thành') bg-success 
-                                                    @elseif($td->trangthai == 'Đang thực hiện') bg-warning 
-                                                    @else bg-secondary @endif">
+                                <span
+                                    class="badge 
+                                                                                                                                                                                        @if($td->trangthai == 'Hoàn thành') bg-success 
+                                                                                                                                                                                        @elseif($td->trangthai == 'Đang thực hiện') bg-warning 
+                                                                                                                                                                                        @else bg-secondary @endif">
                                     {{ $td->trangthai }}
                                 </span>
                             </div>
@@ -128,8 +129,14 @@
                                             <td>{{ number_format($kp->dongia, 0, ',', '.') }}</td>
                                             <td>{{ number_format($kp->thanhtien, 0, ',', '.') }}</td>
                                             <td>
-                                                <a href="#" class="btn btn-sm py-0 px-1 btn-outline-primary"><i class="fas fa-edit"></i>
-                                                    Sửa</a>
+                                                <button type="button"
+                                                    class="btn btn-sm py-0 px-1 btn-outline-primary btn-edit-kinhphi-modal"
+                                                    data-id="{{ $kp->id_kp }}" data-tiendo="{{ $td->id_tiendo }}"
+                                                    data-ctkhoanchi="{{ $kp->ctkhoanchi }}" data-donvitinh="{{ $kp->donvitinh }}"
+                                                    data-soluong="{{ $kp->soluong }}" data-dongia="{{ $kp->dongia }}"
+                                                    data-thanhtien="{{ $kp->thanhtien }}" data-detai="{{ $td->id_detai }}">
+                                                    <i class="fas fa-edit"></i> Sửa
+                                                </button>
                                                 <button type="button" class="btn btn-sm py-0 px-1 btn-outline-danger"
                                                     onclick="deleteKinhPhi('{{ $kp->id_kp }}', '{{ $td->id_detai }}', '{{ $td->id_tiendo }}')"><i
                                                         class="fas fa-trash"></i> Xoá</button>
@@ -179,5 +186,42 @@
                 Bạn chưa có đề tài được duyệt.
             </div>
         @endif
+    </div>
+    <div class="modal fade" id="modalEditKinhPhi" tabindex="-1" aria-labelledby="modalEditKinhPhiLabel" aria-hidden="true"
+        style="z-index: 1055;">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white py-2 px-3" style="min-height:unset;">
+                    <h6 class="modal-title mb-0" id="modalEditKinhPhiLabel" style="font-size:1rem;">Sửa kinh phí</h6>
+                    <button type="button" class="btn-close btn-close-white p-1 m-0" style="width:1.2rem;height:1.2rem;"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditKinhPhi" autocomplete="off">
+                        @csrf
+                        <input type="hidden" name="id_kp" id="edit_id_kp">
+                        <input type="hidden" name="id_tiendo" id="edit_id_tiendo">
+                        <input type="hidden" name="id_detai" id="edit_id_detai">
+                        <div class="row g-2">
+                            <div class="col"><input type="text" name="ctkhoanchi" id="edit_ctkhoanchi" class="form-control"
+                                    placeholder="Chi tiết khoản chi" required></div>
+                            <div class="col"><input type="text" name="donvitinh" id="edit_donvitinh" class="form-control"
+                                    placeholder="Đơn vị tính" required></div>
+                            <div class="col"><input type="number" name="soluong" id="edit_soluong" class="form-control"
+                                    placeholder="Số lượng" min="0" required></div>
+                            <div class="col"><input type="number" name="dongia" id="edit_dongia" class="form-control"
+                                    placeholder="Đơn giá" min="0" required></div>
+                            <div class="col"><input type="number" name="thanhtien" id="edit_thanhtien" class="form-control"
+                                    placeholder="Thành tiền" min="0" required></div>
+                        </div>
+                        <div class="mt-3 text-end">
+                            <button type="submit" class="btn btn-success">Lưu</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+                        </div>
+                        <div id="msg-edit-modal" class="mt-2"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

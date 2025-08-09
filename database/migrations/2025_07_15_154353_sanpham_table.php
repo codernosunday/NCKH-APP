@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('sanpham', function (Blueprint $table) {
             $table->increments('id_sanpham');
             $table->unsignedInteger('id_detai');
-            $table->unsignedInteger('id_loai')->nullable();
             $table->text('linkSP');
             $table->text('tenSP');
             $table->string('trangthai', 10);
@@ -25,9 +24,6 @@ return new class extends Migration
                 ->references('id_detai')
                 ->on('detai')
                 ->onDelete('cascade');
-            $table->foreign('id_loai')
-                ->references('id_loai')
-                ->on('loaispnghiencuu');
         });
     }
 

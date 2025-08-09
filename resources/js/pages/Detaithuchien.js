@@ -1,5 +1,77 @@
 export function DeTaiCaNhan() {
-    console.log('File detaicanhan.js đã được load và chạy!');
+    // Xử lý submit form sửa kinh phí trong modal
+    const formEditKinhPhi = document.getElementById('formEditKinhPhi');
+    if (formEditKinhPhi) {
+        formEditKinhPhi.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const id_kp = document.getElementById('edit_id_kp').value;
+            const id_tiendo = document.getElementById('edit_id_tiendo').value;
+            const id_detai = document.getElementById('edit_id_detai').value;
+            const formData = new FormData(this);
+            const csrfToken = this.querySelector('input[name="_token"]')?.value;
+            const msgBox = document.getElementById('msg-edit-modal');
+            try {
+                const res = await fetch(`/detai/${id_detai}/tiendo/${id_tiendo}/suakinhphi/${id_kp}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: formData
+                });
+                const data = await res.json();
+                if (!res.ok || !data.success) {
+                    msgBox.innerHTML = `<div class="alert alert-danger mt-2">${data.message || 'Lỗi không xác định.'}</div>`;
+                    return;
+                }
+                msgBox.innerHTML = `<div class="alert alert-success mt-2">${data.message}</div>`;
+                setTimeout(() => { location.reload(); }, 1000);
+            } catch (error) {
+                msgBox.innerHTML = `<div class="alert alert-danger mt-2">Không thể gửi dữ liệu. Vui lòng thử lại.</div>`;
+            }
+        });
+    }
+    // Hiện modal sửa kinh phí khi bấm Sửa
+    document.querySelectorAll('.btn-edit-kinhphi-modal').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.preventDefault();
+
+            const modalElement = document.getElementById('modalEditKinhPhi');
+            if (!modalElement) {
+                console.error('Không tìm thấy modal #modalEditKinhPhi');
+                return;
+            }
+
+            const modal = new bootstrap.Modal(modalElement);
+
+            document.getElementById('edit_id_kp').value = btn.dataset.id;
+            document.getElementById('edit_id_tiendo').value = btn.dataset.tiendo;
+            document.getElementById('edit_id_detai').value = btn.dataset.detai;
+            document.getElementById('edit_ctkhoanchi').value = btn.dataset.ctkhoanchi;
+            document.getElementById('edit_donvitinh').value = btn.dataset.donvitinh;
+            document.getElementById('edit_soluong').value = btn.dataset.soluong;
+            document.getElementById('edit_dongia').value = btn.dataset.dongia;
+            document.getElementById('edit_thanhtien').value = btn.dataset.thanhtien;
+            document.getElementById('msg-edit-modal').innerHTML = '';
+
+            modal.show();
+        });
+
+        const editSoluong = document.getElementById('edit_soluong');
+        const editDongia = document.getElementById('edit_dongia');
+        const editThanhTien = document.getElementById('edit_thanhtien');
+
+        if (editSoluong && editDongia && editThanhTien) {
+            const updateThanhTienModal = () => {
+                const soluong = parseFloat(editSoluong.value) || 0;
+                const dongia = parseFloat(editDongia.value) || 0;
+                editThanhTien.value = soluong * dongia;
+            };
+            editSoluong.addEventListener('input', updateThanhTienModal);
+            editDongia.addEventListener('input', updateThanhTienModal);
+        }
+    });
+
+
     // Hiện form khi bấm "Thêm kinh phí"
     document.querySelectorAll('.toggle-kinhphi-form').forEach(button => {
         button.addEventListener('click', function () {
@@ -84,7 +156,6 @@ export function DeTaiCaNhan() {
         });
     });
 }
-
 // Hàm xoá kinh phí
 window.deleteKinhPhi = async function (id_kinhphi, id_detai, id_tiendo) {
     if (!confirm('Bạn có chắc muốn xoá kinh phí này?')) return;

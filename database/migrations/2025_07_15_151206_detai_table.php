@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('detai', function (Blueprint $table) {
             $table->increments('id_detai');
-            $table->unsignedInteger('id_ttcn');
-            $table->unsignedInteger('id_lvnc');
-            $table->unsignedInteger('id_loaidt');
+            $table->unsignedInteger('id_ttcn')->nullable();
+            $table->unsignedInteger('id_lvnc')->nullable();
+            $table->unsignedInteger('id_khoa')->nullable();
+            $table->unsignedInteger('id_loaidt')->nullable();
             $table->text('tendetai');
             $table->text('hotenCN');
             $table->text('donvi')->nullable();
@@ -26,7 +27,8 @@ return new class extends Migration
             $table->date('tgbatdau');
             $table->date('tgketthuc');
             $table->integer('sogiotg');
-            $table->string('trangthai', 10)->nullable();
+            $table->integer('sothang')->nullable();
+            $table->string('trangthai', 50)->nullable();
             $table->text('diemdanhgia')->nullable();
             $table->text('nhanxet')->nullable();
             $table->decimal('kinhphitong', 11, 2)->nullable();
@@ -34,13 +36,19 @@ return new class extends Migration
             $table->foreign('id_loaidt')
                 ->references('id_loaidt')
                 ->on('loaidetai')
-                ->onDelete('cascade');
+                ->onDelete('set null');
             $table->foreign('id_ttcn')
                 ->references('id_ttcn')
-                ->on('thongtincanhan');
+                ->on('thongtincanhan')
+                ->onDelete('set null');
             $table->foreign('id_lvnc')
                 ->references('id_lvnc')
-                ->on('linhvucnghiencuu');
+                ->on('linhvucnghiencuu')
+                ->onDelete('set null');
+            $table->foreign('id_khoa')
+                ->references('id_khoa')
+                ->on('khoa')
+                ->onDelete('set null');
         });
     }
     /**

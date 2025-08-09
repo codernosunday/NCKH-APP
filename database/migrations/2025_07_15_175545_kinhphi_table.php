@@ -26,10 +26,12 @@ return new class extends Migration
 
             $table->foreign('id_detai')
                 ->references('id_detai')
-                ->on('detai');
+                ->on('detai')
+                ->onDelete('cascade');
             $table->foreign('id_tiendo')
                 ->references('id_tiendo')
-                ->on('tiendo');
+                ->on('tiendo')
+                ->onDelete('cascade');
         });
     }
     /**

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('sogioTVtoida');
             $table->integer('soTVtoida');
             $table->integer('nam');
+            $table->text('namtinhgio')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->timestamps();

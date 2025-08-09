@@ -59,10 +59,11 @@ class DetaiRequest extends FormRequest
     {
         return [
             'id_dt' => 'nullable|integer',
+            'khoa' => 'nullable|integer',
             'loaidetai' => 'required|integer',
             'linhvuc' => 'required|integer',
             'hovaten' => 'required|string|max:255',
-            'Donvi' => 'required|string|max:255',
+            'Donvi' => 'nullable|string|max:255',
             'Sodienthoai' => 'required|string|max:20',
             'Email' => 'required|email',
             'TGbatdau' => 'required|date_format:Y-m-d',

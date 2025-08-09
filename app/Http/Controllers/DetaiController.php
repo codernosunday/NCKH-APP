@@ -56,6 +56,7 @@ class DetaiController extends Controller
                 'id_ttcn'      => $id_ttcn,
                 'id_lvnc'      => $request->input('linhvuc'),
                 'id_loaidt'    => $request->input('loaidetai'),
+                'id_khoa'      => $request->input('khoa'),
                 'tendetai'     => $request->input('tendetai'),
                 'hotenCN'      => $request->input('hovaten'),
                 'donvi'        => $request->input('Donvi'),
@@ -65,7 +66,8 @@ class DetaiController extends Controller
                 'tgbatdau'     => $request->input('TGbatdau') ?? null,
                 'tgketthuc'    => $request->input('TGketthuc') ?? null,
                 'sogiotg'      => $request->input('Sogiotacgia'),
-                'trangthai'    => $request->input('Trangthai'),
+                'trangthai'    => 'Chờ duyệt',
+                'nguoixem'    => 'Công khai',
                 'diemanhgia'   => null,
                 'nhanxet'      => null,
             ]);
@@ -227,6 +229,55 @@ class DetaiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi khi xoá kinh phí',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+    public function suaKinhPhi($id_detai, $id_tiendo, $id_kinhphi)
+    {
+        Log::debug('Sửa kinh phí', [
+            'id_kp' => $id_kinhphi,
+            'id_detai' => $id_detai,
+            'id_tiendo' => $id_tiendo,
+        ]);
+        try {
+            $validated = request()->validate([
+                'ctkhoanchi' => 'nullable|string|max:255',
+                'donvitinh'  => 'nullable|string|max:50',
+                'soluong'    => 'nullable|integer|min:1',
+                'dongia'     => 'nullable|numeric|min:0',
+                'thanhtien'  => 'nullable|numeric|min:0',
+            ]);
+            $kinhphi = KinhphiModel::where('id_kp', $id_kinhphi)
+                ->where('id_detai', $id_detai)
+                ->where('id_tiendo', $id_tiendo)
+                ->first();
+            if (!$kinhphi) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không tìm thấy kinh phí cần sửa',
+                ], 404);
+            }
+            $kinhphi->update([
+                'ctkhoanchi' => $validated['ctkhoanchi'],
+                'donvitinh'  => $validated['donvitinh'],
+                'soluong'    => $validated['soluong'],
+                'dongia'     => $validated['dongia'],
+                'thanhtien'  => $validated['thanhtien'],
+            ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Kinh phí đã được cập nhật thành công!',
+                'data' => $kinhphi
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Lỗi khi sửa kinh phí', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi khi sửa kinh phí',
                 'error' => $e->getMessage()
             ], 500);
         }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\LoaidetaiModel;
 use App\Models\LinhvucnghiencuuModel;
-use App\Models\KinhphiModel;
+use App\Models\KhoaModel;
 use App\Models\DetaiModel;
 use App\Models\TiendoModel;
 use App\Models\ThongtincanhanModel;
@@ -29,7 +29,8 @@ class GiaodienNguoiDungController extends Controller
     {
         $loaiDeTai = LoaidetaiModel::all();
         $linhVuc = LinhvucnghiencuuModel::all();
-        return view('pages.Formdangkydetai', compact('loaiDeTai', 'linhVuc'));
+        $dskhoa = KhoaModel::all();
+        return view('pages.FormDangKyDeTai', compact('loaiDeTai', 'linhVuc', 'dskhoa'));
     }
     public function TrangQLdetai()
     {
@@ -39,16 +40,20 @@ class GiaodienNguoiDungController extends Controller
         // Đề tài trạng thái "Chờ duyệt" hoặc "Đã nghiệm thu" mà user là chủ nhiệm
         $detai_choduyet = DetaiModel::where('id_ttcn', $ttcn->id_ttcn)
             ->whereIn('trangthai', ['Chờ duyệt', 'Không duyệt'])
+            ->where('nguoixem', 'Công khai')
             ->get();
         $detai_nghiemthu = DetaiModel::where('id_ttcn', $ttcn->id_ttcn)
             ->where('trangthai', 'Đã nghiệm thu')
+            ->where('nguoixem', 'Công khai')
             ->get();
 
         // Đề tài mà user là thành viên
         $detai_thanhvien = DetaiModel::whereIn(
             'id_detai',
             ThanhvienModel::where('id_ttcn', $ttcn->id_ttcn)->pluck('id_detai')
-        )->get();
+        )
+            ->where('nguoixem', 'Công khai')
+            ->get();
         return view('pages.quanlydetai', compact('detai_choduyet', 'detai_nghiemthu', 'detai_thanhvien'));
     }
     public function DSdetaitheonam($nam)

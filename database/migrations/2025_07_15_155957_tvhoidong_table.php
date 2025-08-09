@@ -27,7 +27,8 @@ return new class extends Migration
                 ->on('detai');
             $table->foreign('id_ttcn')
                 ->references('id_ttcn')
-                ->on('thongtincanhan');
+                ->on('thongtincanhan')
+                ->onDelete('cascade');
         });
     }
 
