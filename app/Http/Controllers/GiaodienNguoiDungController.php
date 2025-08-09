@@ -22,10 +22,14 @@ class GiaodienNguoiDungController extends Controller
     //Giao diện cá nhân 
     public function TrangDangKyDetai()
     {
+        return view('pages.dangkydetai');
+    }
+    //Các form
+    public function FormDangKyDetai()
+    {
         $loaiDeTai = LoaidetaiModel::all();
         $linhVuc = LinhvucnghiencuuModel::all();
-        // Trả về view đăng ký đề tài với dữ liệu loại đề tài và lĩnh vực nghiên cứu
-        return view('pages.dangkydetai', compact('loaiDeTai', 'linhVuc'));
+        return view('pages.Formdangkydetai', compact('loaiDeTai', 'linhVuc'));
     }
     public function TrangQLdetai()
     {
@@ -45,8 +49,41 @@ class GiaodienNguoiDungController extends Controller
             'id_detai',
             ThanhvienModel::where('id_ttcn', $ttcn->id_ttcn)->pluck('id_detai')
         )->get();
-
         return view('pages.quanlydetai', compact('detai_choduyet', 'detai_nghiemthu', 'detai_thanhvien'));
+    }
+    public function DSdetaitheonam($nam)
+    {
+        try {
+            $user = auth()->user();
+            $ttcn = ThongtincanhanModel::where('user_id', $user->id)->first();
+            $detai_choduyet = DetaiModel::where('id_ttcn', $ttcn->id_ttcn)
+                ->whereIn('trangthai', ['Chờ duyệt', 'Không duyệt'])
+                ->whereYear('created_at', $nam)
+                ->get();
+            $detai_nghiemthu = DetaiModel::where('id_ttcn', $ttcn->id_ttcn)
+                ->where('trangthai', 'Đã nghiệm thu')
+                ->whereYear('created_at', $nam)
+                ->get();
+            $detai_thanhvien = DetaiModel::whereIn(
+                'id_detai',
+                ThanhvienModel::where('id_ttcn', $ttcn->id_ttcn)->pluck('id_detai')
+            )
+                ->whereYear('created_at', $nam)
+                ->get();
+
+            if ($detai_choduyet->isEmpty() && $detai_nghiemthu->isEmpty() && $detai_thanhvien->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không có dữ liệu đề tài cho năm này.'
+                ], 404);
+            }
+            return view('components.detaithongketheonam', compact('detai_choduyet', 'detai_nghiemthu', 'detai_thanhvien'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Không có dữ liệu đề tài cho năm này.'
+            ], 500);
+        }
     }
     public function TrangTimKiemDetai()
     {
@@ -55,7 +92,9 @@ class GiaodienNguoiDungController extends Controller
     }
     public function TrangCaNhan()
     {
-        return view('pages.trangcanhan');
+        $user = auth()->user();
+        $ttcn = ThongtincanhanModel::where('user_id', $user->id)->first();
+        return view('pages.trangcanhan', compact('ttcn'));
     }
     public function TrangDeTaiCaNhan(Request $request)
     {
@@ -69,7 +108,7 @@ class GiaodienNguoiDungController extends Controller
             return redirect()->back()->with('error', 'Thông tin cá nhân không tồn tại.');
         };
         $dsDetai = DetaiModel::where('id_ttcn', $id_ttcn->id_ttcn)
-            ->whereIn('trangthai', ['Đã duyệt', 'Đã nghiệm thu'])
+            ->whereIn('trangthai', ['Đã duyệt'])
             ->first();
         if ($dsDetai == null) {
             $dieukien = false;
@@ -117,5 +156,17 @@ class GiaodienNguoiDungController extends Controller
             ], 404);
         }
         return view('components.detai', compact('loaiDeTai', 'dsDetai'));
+    }
+
+    // Trang chi tiết đề tài
+    public function TrangDeTai($iddt, $ten)
+    {
+        $detai = DetaiModel::with(['Thanhvien', 'Linhvucnghiencuu', 'LoaiDT'])
+            ->where('id_detai', $iddt)
+            ->first();
+        if (!$detai) {
+            abort(404, 'Không tìm thấy đề tài');
+        }
+        return view('pages.detai', compact('detai', 'ten'));
     }
 }

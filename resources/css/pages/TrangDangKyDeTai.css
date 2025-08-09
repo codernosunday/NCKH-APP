@@ -1,0 +1,145 @@
+/* Logo styling */
+.site-logo {
+    max-height: 100px;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+}
+
+.site-logo:hover {
+    transform: scale(1.05);
+}
+
+/* Card styling */
+.card-option {
+    border: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-option:hover {
+    transform: translateY(-5px);
+}
+
+.card-icon {
+    font-size: 3rem;
+    color: #4e73df;
+    margin: 20px 0;
+    transition: all 0.3s ease;
+}
+
+.card-icon.bounce {
+    animation: bounce 0.5s;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.card-title {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.card-text {
+    color: #7f8c8d;
+    margin-bottom: 1.5rem;
+}
+
+.btn-access {
+    position: relative;
+    overflow: hidden;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: 500;
+    transition: all 0.3s;
+    border: none;
+    background: linear-gradient(45deg, #4e73df, #224abe);
+}
+
+.btn-access:hover {
+    box-shadow: 0 5px 15px rgba(78, 115, 223, 0.4);
+}
+
+.btn-access .ripple-circle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(20);
+        opacity: 0;
+    }
+}
+
+/* Info box styling */
+.info-box {
+    background: #f8f9fc;
+    border-left: 4px solid #4e73df;
+    padding: 25px;
+    border-radius: 5px;
+}
+
+.info-box h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.guide-steps {
+    padding-left: 20px;
+}
+
+.guide-steps li {
+    margin-bottom: 10px;
+    color: #34495e;
+    font-size: 1.05rem;
+}
+
+.btn-support {
+    transition: all 0.3s;
+    padding: 8px 20px;
+    border-radius: 50px;
+}
+
+.btn-support:hover {
+    background-color: #4e73df;
+    color: white;
+}
+
+/* Animation */
+.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+}

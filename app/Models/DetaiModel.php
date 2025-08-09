@@ -26,7 +26,8 @@ class DetaiModel extends Model
         'sogiotg',
         'trangthai',
         'diemdanhgia',
-        'nhanxet'
+        'nhanxet',
+        'nguoixem',
     ];
     public $timestamps = true;
 

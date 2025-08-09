@@ -18,7 +18,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/quanlydetai">
-                    <i class="fas fa-file-alt"></i>Quản lý đề tài
+                    <i class="fas fa-file-alt"></i>Số giờ NCKH
                 </a>
             </li>
         </ul>

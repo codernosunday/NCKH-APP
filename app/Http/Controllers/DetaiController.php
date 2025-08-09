@@ -124,7 +124,7 @@ class DetaiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi khi đăng ký đề tài',
-                'error' => $e->getMessage()
+                'error' => 'Thiếu thông tin'
             ], 500);
         }
     }

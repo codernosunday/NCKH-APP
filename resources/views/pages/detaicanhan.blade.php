@@ -3,7 +3,7 @@
 @section('title', 'Đề tài cá nhân')
 
 @section('content')
-    @vite(['resources/js/pages/detaicanhan.js'])
+    @vite(['resources/js/pages/Detaithuchien.js'])
     <div class="main-content" id="trangdetaicanhan">
         <h2 class="mb-4">Đề tài cá nhân</h2>
         <div class="border-start border-4 border-primary ps-3 py-2 mb-3 bg-light fw-bold">
@@ -87,9 +87,9 @@
                             </div>
                             <div>
                                 <span class="badge 
-                            @if($td->trangthai == 'Hoàn thành') bg-success 
-                            @elseif($td->trangthai == 'Đang thực hiện') bg-warning 
-                            @else bg-secondary @endif">
+                                                    @if($td->trangthai == 'Hoàn thành') bg-success 
+                                                    @elseif($td->trangthai == 'Đang thực hiện') bg-warning 
+                                                    @else bg-secondary @endif">
                                     {{ $td->trangthai }}
                                 </span>
                             </div>

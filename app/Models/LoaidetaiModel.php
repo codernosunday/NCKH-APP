@@ -18,6 +18,7 @@ class LoaidetaiModel extends Model
         'soTVtoida',
         'nam',
         'ghichu',
+        'trangthai',
     ];
     public $timestamps = true;
     public function Detai()

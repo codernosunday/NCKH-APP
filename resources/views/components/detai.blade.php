@@ -38,7 +38,8 @@
                     {{ $detai->donvi ?? '' }}
                 </a>
             </p>
-            <a href="#" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
+            <a href="/xemdetai/{{$detai->id_detai}}/{{$detai->tendetai}}" class="btn btn-outline-primary btn-sm">Xem chi
+                tiết</a>
         </div>
     </div>
 @endforeach

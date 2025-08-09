@@ -5,6 +5,7 @@ use App\Http\Controllers\DetaiController;
 use App\Http\Controllers\DangNhapController;
 use App\Http\Controllers\GiaodienQLController;
 use App\Http\Controllers\GiaodienNguoiDungController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,12 +27,15 @@ Route::post('/logoutuser', [DangNhapController::class, 'Dangxuat'])->name('logou
 */
 Route::get('/', [GiaodienNguoiDungController::class, 'TrangDangnhap']);
 Route::get('/trangdangnhap', [GiaodienNguoiDungController::class, 'TrangDangnhap']);
+Route::get('/xemdetai/{iddt}/{ten}', [GiaodienNguoiDungController::class, 'TrangDeTai']);
 Route::middleware(['checknguoidung'])->group(function () {
     Route::get('/detainckh/detaicuatoi', [GiaodienNguoiDungController::class, 'TrangDeTaiCaNhan']);
     Route::get('/quanlydetai', [GiaodienNguoiDungController::class, 'TrangQLdetai']);
     Route::get('/thongtincanhan', [GiaodienNguoiDungController::class, 'TrangCaNhan']);
     Route::get('/detainckh/dangkydetai', [GiaodienNguoiDungController::class, 'TrangDangKyDetai']);
+    Route::get('/detainckh/Formdangkydetai', [GiaodienNguoiDungController::class, 'FormDangKyDetai']);
     Route::get('/detainckh', [GiaodienNguoiDungController::class, 'TrangTimKiemDetai']);
+    Route::get('/detaitheonam/{nam}', [GiaodienNguoiDungController::class, 'DSdetaitheonam']);
 });
 /*
 | Tìm kiếm---------------------------------------------
@@ -54,4 +58,8 @@ Route::middleware(['checknguoidung'])->group(function () {
     route::post('/detai/dangkydetai', [DetaiController::class, 'DangkyDetai'])->name('detai.dangkydetai');
     route::post('/tiendo/{id}/themkinhphi', [DetaiController::class, 'ThemKinhPhi'])->name('detai.ThemKinhPhi');
     route::delete('/detai/{id_detai}/tiendo/{id_tiendo}/kinhphi/{id_kinhphi}', [DetaiController::class, 'xoaKinhPhi'])->name('detai.xoaKinhPhi');
+});
+//Thông tin cá nhân
+Route::middleware(['checknguoidung'])->group(function () {
+    route::post('/capnhat/thongtincanhan', [UserController::class, 'CapNhatThongTinCaNhan']);
 });

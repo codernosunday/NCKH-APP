@@ -14,6 +14,9 @@ class ThongtincanhanModel extends Model
         'user_id',
         'hovaten',
         'dvcongtac',
+        'gioitinh',
+        'ngaysinh',
+        'sodt',
         'email',
         'trangthai'
     ];
