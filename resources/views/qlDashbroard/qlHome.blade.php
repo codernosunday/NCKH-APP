@@ -1,13 +1,10 @@
-<html lang="en">
+@extends('layoutQL.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý</title>
-</head>
+@section('title', 'Trang quản lý')
 
-<body>
+@section('content')
+    <div class="main-content">
+        <h2 class="mb-4">Quản lý đề tài NCKH</h2>
 
-</body>
-
-</html>
+    </div>
+@endsection

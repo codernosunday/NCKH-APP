@@ -44,10 +44,6 @@ Route::get('/detai/{idloai}', [GiaodienNguoiDungController::class, 'timkiemtheol
 Route::get('/detai/timkiem/{search}', [GiaodienNguoiDungController::class, 'timkiem']);
 
 
-// giao diện admin
-Route::get('/admin/trangquanly', [GiaodienQLController::class, 'dashboardAdmin']);
-// giao diện quản lý hệ thống
-Route::get('/quanlyhethong/trangquanly', [GiaodienQLController::class, 'dashboardQL']);
 
 
 /*
@@ -67,3 +63,11 @@ Route::middleware(['checknguoidung'])->group(function () {
 Route::middleware(['checknguoidung'])->group(function () {
     route::post('/capnhat/thongtincanhan', [UserController::class, 'CapNhatThongTinCaNhan']);
 });
+
+
+// giao diện admin
+Route::get('/admin/trangquanly', [GiaodienQLController::class, 'dashboardAdmin']);
+// giao diện quản lý hệ thống
+Route::get('/quanly/trangquanly', [GiaodienQLController::class, 'dashboardQL']);
+Route::get('/quanly/detaichoduyet', [GiaodienQLController::class, 'DetaiChoDuyet']);
+Route::get('/quanly/xemdetai/{id_detai}', [GiaodienQLController::class, 'TrangChiTietDeTai']);

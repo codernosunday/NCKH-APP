@@ -47,7 +47,7 @@ class DangNhapController extends Controller
                     $request->session()->regenerate();
                     return response()->json([
                         'success' => true,
-                        'redirect' => '/quanlyhethong/trangquanly'
+                        'redirect' => '/quanly/trangquanly'
                     ]);
                 }
                 if ($user->permission === 'user') {

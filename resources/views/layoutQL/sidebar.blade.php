@@ -2,23 +2,28 @@
     <div class="position-sticky pt-3">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link " href="">
+                <a class="nav-link " href="/quanly/trangquanly">
                     <i class="fas fa-tachometer-alt"></i>Dashboard
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="/quanly/detaichoduyet">
+                    <i class="fas fa-book-open"></i>Đề tài chờ duyệt
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="">
-                    <i class="fas fa-book"></i>Đề tài chờ duyệt
+                    <i class="fas fa-book"></i>Quản lý đề tài
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link " href="">
-                    <i class="fas fa-users"></i>Quản lý Nghiên cứu viên
+                    <i class="fas fa-users"></i>Quản lý hội đồng
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="">
-                    <i class="fas fa-file-alt"></i>Báo cáo
+                    <i class="fas fa-tasks"></i>Tiến độ thực hiện
                 </a>
             </li>
             <li class="nav-item">
