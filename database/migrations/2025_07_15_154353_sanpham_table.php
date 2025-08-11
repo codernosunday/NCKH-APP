@@ -17,6 +17,7 @@ return new class extends Migration
             $table->increments('id_sanpham');
             $table->unsignedInteger('id_detai');
             $table->text('linkSP');
+            $table->text('loaiSP')->nullable(); // Assuming 'loaiSP' can be nullable
             $table->text('tenSP');
             $table->string('trangthai', 10);
             $table->timestamps();

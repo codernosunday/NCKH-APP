@@ -59,6 +59,9 @@ Route::middleware(['checknguoidung'])->group(function () {
     route::post('/tiendo/{id}/themkinhphi', [DetaiController::class, 'ThemKinhPhi'])->name('detai.ThemKinhPhi');
     route::delete('/detai/{id_detai}/tiendo/{id_tiendo}/kinhphi/{id_kinhphi}', [DetaiController::class, 'xoaKinhPhi'])->name('detai.xoaKinhPhi');
     route::post('/detai/{id_detai}/tiendo/{id_tiendo}/suakinhphi/{id_kinhphi}', [DetaiController::class, 'suaKinhPhi'])->name('detai.suaKinhPhi');
+    //upload file
+    route::post('/detai/{id_detai}/sanpham', [DetaiController::class, 'themFile'])->name('detai.themFile');
+    route::delete('/detai/xoasanpham/{idfile}', [DetaiController::class, 'xoaFile'])->name('detai.xoaFile');
 });
 //Thông tin cá nhân
 Route::middleware(['checknguoidung'])->group(function () {

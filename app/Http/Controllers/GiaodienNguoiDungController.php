@@ -10,6 +10,7 @@ use App\Models\DetaiModel;
 use App\Models\TiendoModel;
 use App\Models\ThongtincanhanModel;
 use App\Models\ThanhvienModel;
+use App\Models\SanphamModel;
 use Illuminate\Support\Facades\Log;
 
 class GiaodienNguoiDungController extends Controller
@@ -124,10 +125,13 @@ class GiaodienNguoiDungController extends Controller
             $tiendo = TiendoModel::with(['Kinhphi', 'Detai'])
                 ->where('id_detai', $id_detai)
                 ->get();
+            $dssanpham = SanphamModel::with(['Detai'])
+                ->where('id_detai', $id_detai)
+                ->get();
             $thanhviens = ThanhvienModel::with('ThanhvienDT')
                 ->where('id_detai', $id_detai)
                 ->get();
-            return view('pages.detaicanhan', compact('dsDetai', 'tiendo', 'thanhviens', 'dieukien'));
+            return view('pages.detaicanhan', compact('dsDetai', 'tiendo', 'thanhviens', 'dieukien', 'dssanpham'));
         }
     }
     public function timkiemtheoloai($idloai)

@@ -1,5 +1,4 @@
 export function DeTaiCaNhan() {
-    // Xử lý submit form sửa kinh phí trong modal
     const formEditKinhPhi = document.getElementById('formEditKinhPhi');
     if (formEditKinhPhi) {
         formEditKinhPhi.addEventListener('submit', async function (e) {
@@ -146,15 +145,108 @@ export function DeTaiCaNhan() {
                 this.reset();
                 document.getElementById(`form-${id}`).style.display = 'none';
                 location.reload();
-
-                // TODO: reload bảng nếu cần
-
             } catch (error) {
                 msgBox.innerHTML = `<div class="alert alert-danger mt-2">Không thể gửi dữ liệu. Vui lòng thử lại.</div>`;
                 alert('Thêm kinh phí thất bại!');
             }
         });
     });
+    // Khởi tạo 1 instance modal sản phẩm dùng chung
+    const modalSanPhamElement = document.getElementById('modalSanPham');
+    let modalSanPhamInstance = null;
+    if (modalSanPhamElement) {
+        modalSanPhamInstance = new bootstrap.Modal(modalSanPhamElement);
+    }
+    // Hiện modal thêm sản phẩm khi bấm nút Thêm sản phẩm
+    const btnShowModalThemSanPham = document.getElementById('btnShowModalThemSanPham');
+    if (btnShowModalThemSanPham && modalSanPhamInstance) {
+        btnShowModalThemSanPham.addEventListener('click', function () {
+            const form = document.getElementById('formModalSanPham');
+            form.reset(); // reset form
+            document.getElementById('modal_id_sanpham').value = '';
+            // Ẩn cả 2 nhóm nếu có
+            if (document.getElementById('group_linkSP')) document.getElementById('group_linkSP').classList.add('d-none');
+            if (document.getElementById('group_fileSP')) document.getElementById('group_fileSP').classList.add('d-none');
+            if (document.getElementById('modal_linkSP')) document.getElementById('modal_linkSP').required = false;
+            if (document.getElementById('modal_fileSP')) document.getElementById('modal_fileSP').required = false;
+            document.getElementById('modalSanPhamLabel').innerText = 'Thêm sản phẩm';
+            document.getElementById('msg-modal-sanpham').innerHTML = '';
+            modalSanPhamInstance.show();
+        });
+    }
+    // Hiện modal sửa sản phẩm khi bấm nút sửa
+    if (modalSanPhamInstance) {
+        document.querySelectorAll('.btn-edit-sanpham-modal').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const id = btn.getAttribute('data-id');
+                const tenSP = btn.getAttribute('data-tensp');
+                const linkSP = btn.getAttribute('data-linksp');
+                document.getElementById('modal_id_sanpham').value = id || '';
+                document.getElementById('modal_tenSP').value = tenSP || '';
+                document.getElementById('modal_linkSP').value = linkSP || '';
+                document.getElementById('modalSanPhamLabel').innerText = 'Sửa sản phẩm';
+                document.getElementById('msg-modal-sanpham').innerHTML = '';
+                modalSanPhamInstance.show();
+            });
+        });
+    }
+    // Khi chọn loại nhập
+    document.getElementById('modal_loaiSP').addEventListener('change', function () {
+        const groupLink = document.getElementById('group_linkSP');
+        const groupFile = document.getElementById('group_fileSP');
+        const inputLink = document.getElementById('modal_linkSP');
+        const inputFile = document.getElementById('modal_fileSP');
+
+        if (this.value === 'link') {
+            groupLink.classList.remove('d-none');
+            groupFile.classList.add('d-none');
+            inputLink.required = true;
+            inputFile.required = false;
+        }
+        else if (this.value === 'file') {
+            groupFile.classList.remove('d-none');
+            groupLink.classList.add('d-none');
+            inputFile.required = true;
+            inputLink.required = false;
+        }
+        else {
+            groupLink.classList.add('d-none');
+            groupFile.classList.add('d-none');
+            inputLink.required = false;
+            inputFile.required = false;
+        }
+    });
+
+    const formSanPham = document.getElementById('formModalSanPham');
+    if (formSanPham) {
+        formSanPham.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const id_detai = document.getElementById('edit_id_detai').value;
+            const msgBox = document.getElementById('msg-modal-sanpham');
+            const formData = new FormData(this);
+            const url = `/detai/${id_detai}/sanpham`;
+            console.log('Submitting form to:', url);
+            try {
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': this.querySelector('input[name="_token"]')?.value
+                    },
+                    body: formData
+                });
+                const data = await res.json();
+                if (!res.ok || !data.success) {
+                    msgBox.innerHTML = `<div class=\"alert alert-danger mt-2\">${data.message || 'Lỗi không xác định.'}</div>`;
+                    return;
+                }
+                msgBox.innerHTML = `<div class=\"alert alert-success mt-2\">${data.message}</div>`;
+                setTimeout(() => { location.reload(); }, 1000);
+            } catch (error) {
+                msgBox.innerHTML = `<div class=\"alert alert-danger mt-2\">Không thể gửi dữ liệu. Vui lòng thử lại.</div>`;
+            }
+        });
+    }
 }
 // Hàm xoá kinh phí
 window.deleteKinhPhi = async function (id_kinhphi, id_detai, id_tiendo) {
@@ -176,5 +268,27 @@ window.deleteKinhPhi = async function (id_kinhphi, id_detai, id_tiendo) {
         }
     } catch (error) {
         alert('Lỗi khi xoá kinh phí!');
+    }
+}
+// Hàm xoá sản phẩm
+window.xoaSanPham = async function (id_sanpham) {
+    if (!confirm('Bạn có chắc muốn xoá sản phẩm này?')) return;
+    try {
+        const res = await fetch(`/detai/xoasanpham/${id_sanpham}`, {
+            method: 'DELETE',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content
+            }
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+            alert('Xoá sản phẩm thành công!');
+            location.reload();
+        } else {
+            alert(data.message || 'Xoá thất bại!');
+        }
+    } catch (error) {
+        alert('Lỗi khi xoá sản phẩm!');
     }
 }

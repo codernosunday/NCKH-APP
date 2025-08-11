@@ -11,17 +11,13 @@ class SanphamModel extends Model
     protected $table = 'sanpham';
     protected $primaryKey = 'id_sanpham';
     protected $fillable = [
-        'id_loai',
         'id_detai',
         'linkSP',
+        'loaiSP',
         'tenSP',
         'trangthai',
     ];
     public $timestamps = true;
-    public function Loaisanpham()
-    {
-        return $this->belongsTo(LoaispnghiencuuModel::class, 'id_loai');
-    }
     public function Detai()
     {
         return $this->belongsTo(DetaiModel::class, 'id_detai');

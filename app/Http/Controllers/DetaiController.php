@@ -10,8 +10,10 @@ use App\Models\DetaiModel;
 use App\Models\TiendoModel;
 use App\Models\ThongtincanhanModel;
 use App\Models\ThanhvienModel;
+use App\Models\SanphamModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class DetaiController extends Controller
 {
@@ -279,6 +281,73 @@ class DetaiController extends Controller
                 'success' => false,
                 'message' => 'Lỗi khi sửa kinh phí',
                 'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+    // add file
+    public function themFile(Request $request, $iddt)
+    {
+        try {
+            $validated = $request->validate([
+                'fileSP' => 'nullable|file|max:2048',
+                'tenSP' => 'required|string|max:255',
+                'loaiSP' => 'required|string|max:255',
+                'linkSP' => 'nullable|string|max:255',
+            ]);
+            if ($validated['loaiSP'] == 'file') {
+                $storedPath = $request->file('fileSP')->store('uploads', 'public');
+                $path = '/storage/' . $storedPath;
+                SanphamModel::create([
+                    'id_detai' => $iddt,
+                    'linkSP' => $path,
+                    'tenSP' => $validated['tenSP'],
+                    'loaiSP' => $validated['loaiSP'],
+                    'trangthai' => 'Công khai',
+                ]);
+            } else {
+                SanphamModel::create([
+                    'id_detai' => $iddt,
+                    'linkSP' => $validated['linkSP'],
+                    'tenSP' => $validated['tenSP'],
+                    'loaiSP' => $validated['loaiSP'],
+                    'trangthai' => 'Công khai',
+                ]);
+            }
+            return response()->json([
+                'success' => true,
+                'message' => 'Upload thành công',
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Lỗi khi thêm tệp', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi khi thêm tệp',
+            ], 500);
+        }
+    }
+    public function xoaFile($idfile)
+    {
+        try {
+            $sanpham = SanphamModel::findOrFail($idfile);
+            if ($sanpham->loaiSP == 'File') {
+                Storage::disk('public')->delete($sanpham->linkSP);
+            }
+            $sanpham->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Xoá tệp thành công',
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Lỗi khi xoá tệp', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi khi xoá tệp',
             ], 500);
         }
     }

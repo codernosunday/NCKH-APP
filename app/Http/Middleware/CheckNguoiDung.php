@@ -34,11 +34,6 @@ class CheckNguoiDung
             return redirect('/trangdangnhap');
         }
         $request->merge(['id_nguoidung' => Auth::id()]);
-        Log::warning('Truy cập thành công', [
-            'url' => $request->fullUrl(),
-            'ip' => $request->ip(),
-            'agent' => $request->userAgent()
-        ]);
         return $next($request);
     }
 }
